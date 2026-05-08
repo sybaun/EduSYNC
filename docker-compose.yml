@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  backend:
+    container_name: edusync-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://edusync:edusync_password@db:5432/edusync_db
+      APP_ENV: development
+      API_HOST: 0.0.0.0
+      API_PORT: 8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    networks:
+      - edusync-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend-web:
+    container_name: edusync-frontend-web
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - edusync-network
+
+volumes:
+  edusync_postgres_data:
+
+networks:
+  edusync-network:
+    driver: bridge
