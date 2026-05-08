@@ -7,7 +7,47 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     restart: unless-stopped
+    environment:services:
+  backend:
+    image: node:20-alpine
+    container_name: edusync-backend
+    working_dir: /app
+    command: sh -c "npm ci && node src/server.js"
     environment:
+      PORT: 3000
+      NODE_ENV: development
+      DATABASE_URL: postgres://edusync:edusync_password@db:5432/edusync_db
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    container_name: edusync-db
+    environment:
+      POSTGRES_USER: edusync
+      POSTGRES_PASSWORD: edusync_password
+      POSTGRES_DB: edusync_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - edusync_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U edusync -d edusync_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  node_modules:
+  edusync_postgres_data:
       DATABASE_URL: postgresql://edusync:edusync_password@db:5432/edusync_db
       APP_ENV: development
       API_HOST: 0.0.0.0
