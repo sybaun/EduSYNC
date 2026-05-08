@@ -27,8 +27,8 @@ Projekt oparty jest na **architekturze warstwowej (layered architecture)**:
 
 * **Frontend** — Flutter (mobile + web)
 * **Backend API** — FastAPI (Python)
-* **Logika biznesowa** — moduły backendowe
-* **Warstwa danych** — ORM
+* **Infrastruktura** — Docker + Git + AWS
+* **Testowanie** — Pytest
 * **Baza danych** — PostgreSQL
 
 Architektura typu **client–server + API-first** umożliwia niezależny rozwój komponentów.
@@ -38,15 +38,16 @@ Architektura typu **client–server + API-first** umożliwia niezależny rozwój
 ## 📁 Struktura projektu
 
 ```text
-EduSync/
-│
-├── mobile_app/        # Flutter (frontend)
-├── backend/           # FastAPI (API)
-├── db/                # schema i migracje
-├── tests/             # testy (unit, integration, e2e)
-├── infra/             # Docker, konfiguracja
-├── .github/workflows/ # CI/CD
-├── docker-compose.yml
+EduSYNC/
+├── .github/workflows/     # konfiguracja CI/CD
+├── db/                    # pliki związane z bazą danych
+├── e2e/                   # testy end-to-end
+├── infra/docker/          # pliki Docker dla infrastruktury
+├── mobile_app/            # aplikacja mobilna Flutter
+├── src/                   # kod aplikacji 
+├── tests/                 # testy automatyczne
+├── docker-compose.yml     # konfiguracja uruchomienia lokalnego
+├── package.json           # zależności i skrypty 
 └── README.md
 ```
 
@@ -125,25 +126,8 @@ Strategia testowania obejmuje:
 ### Uruchamianie testów
 
 ```bash
-pytest
+python test_basic.py
 ```
-
-lub w Dockerze:
-
-```bash
-docker compose exec backend pytest
-```
-
----
-
-## 🔍 Analiza statyczna
-
-W projekcie stosowane są narzędzia:
-
-* `black` / `ruff` — backend Python
-* `flutter analyze` — frontend
-
-Zapewnia to spójność kodu i wykrywanie błędów na wczesnym etapie.
 
 ---
 
@@ -159,7 +143,7 @@ System wykorzystuje **JWT (JSON Web Token)**:
 
 ## ⚙️ CI/CD
 
-Pipeline CI/CD реализован при помощи **GitHub Actions**.
+Pipeline CI/CD realizowany za pomocą **GitHub Actions**.
 
 ### 🔄 Kroki pipeline'u:
 
@@ -178,14 +162,6 @@ Pipeline uruchamia się automatycznie przy każdym:
 
 ---
 
-## 🌍 Środowiska
-
-* **dev** — lokalne środowisko (Docker)
-* **staging** — testy integracyjne
-* **demo/production** — prezentacja systemu
-
----
-
 ## 📊 Metryki (aktualny stan)
 
 * testy jednostkowe: ✔
@@ -199,7 +175,6 @@ Pipeline uruchamia się automatycznie przy każdym:
 
 * brak pełnego frontend UI (demo struktura)
 * brak integracji z systemami zewnętrznymi
-* brak pełnej implementacji CI/CD deploy
 
 ---
 
@@ -216,9 +191,9 @@ Pipeline uruchamia się automatycznie przy każdym:
 
 Projekt zespołowy EduSync
 
-* Lead / Architekt
-* Backend Developer
-* DevOps / Tester
+* Albert Arakelian - Lead / Architekt
+* Andrii Stefanets - Backend Developer
+* Tsimafei Dolnikau - DevOps / Tester
 
 ---
 
