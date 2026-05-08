@@ -3,17 +3,16 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest",
-    "coverage": "jest --coverage",
     "lint": "eslint .",
-    "e2e": "playwright test e2e"
-  },
-  "devDependencies": {
-    "jest": "^30.4.0",
-    "eslint": "^8.0.0",
-    "supertest": "^7.0.0",
-    "@playwright/test": "^1.59.0"
+    "e2e": "playwright test",
+    "coverage": "jest --coverage"
   },
   "dependencies": {
     "express": "^4.19.0"
+  },
+  "devDependencies": {
+    "jest": "^30.4.0",
+    "supertest": "^7.0.0",
+    "@playwright/test": "^1.59.0"
   }
 }
