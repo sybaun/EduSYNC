@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 
 const API = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 
-// ✅ ИСПРАВЛЕНО: email совпадают с seed_demo_data в бэкенде
 const accounts = {
   student: { email: "student@edusync.edu", password: "password123", roleLabel: "Uczeń",         avatar: "JK" },
   teacher: { email: "teacher@edusync.edu", password: "password123", roleLabel: "Wykładowca",    avatar: "AN" },
